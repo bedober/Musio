@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
 const navItems = [
   { href: "/", label: "Overview" },
@@ -8,7 +10,12 @@ const navItems = [
   { href: "/admin", label: "Admin" },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login?next=/dashboard");
+  const { data: profile } = await supabase.from("profiles").select("full_name, role, account_status").eq("id", user.id).maybeSingle();
+
   return (
     <main style={styles.page}>
       <aside style={styles.sidebar}>
@@ -31,8 +38,8 @@ export default function DashboardPage() {
         <div style={styles.cardMini}>
           <div style={styles.avatar}>BP</div>
           <div>
-            <strong>Welcome back</strong>
-            <div style={styles.muted}>Admin workspace</div>
+            <strong>{profile?.full_name || user.email || "Welcome back"}</strong>
+            <div style={styles.muted}>{profile?.role || "Listener"} workspace</div>
           </div>
         </div>
       </aside>
