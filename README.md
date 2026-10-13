@@ -1,59 +1,49 @@
 # Musio
 
-Musio is a Vercel-ready music platform starter for listeners, artists, and admins in Uganda and beyond.
+Musio is a Uganda-first music streaming and artist-services platform, designed to expand worldwide.
+
+## Working prototype
+
+The first public Zite prototype is available at **https://6c1j92a3bg.zite.so**. It demonstrates listener music discovery and five workspace previews: Listener, Artist, Management, Label, and Platform Admin.
+
+The prototype currently uses demo data. Playback controls are UI-only; live authentication, licensed audio streaming, database-backed catalog data, and royalty payments are not connected yet.
 
 ## Product direction
 
-- Listener discovery and playlists
-- Artist profiles and uploads
-- Admin moderation and quality controls
-- Premium subscription path with local payment readiness
-- Rights-aware media storage and royalty foundations
+- Free music discovery and streaming
+- Artist and label services
+- Role-specific catalog and release management
+- Transparent royalty statements and payout tracking
+- Uganda-first onboarding, with international expansion after validation
 
-## Recommended stack
+## Workflow
 
-- Frontend: Next.js + TypeScript
-- Database: Supabase PostgreSQL
-- Auth: Supabase Auth + role-based access
-- Storage: S3-compatible private object storage with signed URLs
-- Deployment: Vercel
-- Payments: Flutterwave or comparable provider
+- **Zite:** rapid prototype and early operational workflows
+- **GitHub:** versioned source, implementation plan, and CI
+- **Vercel:** Next.js hosting and deployment
 
-## Runtime
+See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for the phased roadmap, role permissions, and architecture.
+
+## Next.js starter runtime
 
 - Node.js 24.x
 - Next.js 15.5.27
 - React 19.2.4
 
-## Local development
+Local development:
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Environment setup
+## Production requirements still outstanding
 
-Copy the example file and fill in the values for your Supabase project:
+- Secure authentication and server-enforced role-based access
+- Database schema and row-level authorization
+- Licensed catalog, media upload validation, audio transcoding, and signed streaming delivery
+- Auditable play events and contract-based royalty ledger
+- Uganda-compatible payment-provider onboarding and payout reconciliation
+- Security, privacy, rights/takedown, backup, and production tests
 
-```bash
-cp .env.example .env.local
-```
-
-## Production checks
-
-```bash
-npm audit
-npm run build
-```
-
-## Current status
-
-The starter includes a dashboard-oriented front-end shell and the base project structure required for a production MVP. Authentication, uploads, storage policies, database schema, rights tracking, payments, and royalty accounting still require backend configuration and service integration.
-
-## Suggested phases
-
-1. MVP streaming and discovery
-2. Artist and label onboarding
-3. Monetization and payments
-4. Growth and international expansion
+**Deployment status:** the Zite prototype is published. The GitHub-to-Vercel deployment still needs verification because the Vercel integration returned an authorization/scope error. Do not treat the prototype as production-ready or any demo earnings as payable amounts.
