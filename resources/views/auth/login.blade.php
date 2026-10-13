@@ -1,0 +1,4 @@
+@extends('layouts.app', ['title' => 'Sign in · Musio'])
+@section('content')
+<section class="auth-page"><div class="auth-card"><a class="brand" href="{{ route('home') }}">musio<span class="lime">.</span></a><span class="eyebrow">WELCOME BACK</span><h1>Sign in to Musio.</h1><p class="auth-copy">Access your music workspace, releases, and audience insights.</p><form class="auth-form" method="POST" action="{{ route('login.store') }}">@csrf<label>Email<input name="email" type="email" value="{{ old('email') }}" required autocomplete="email"></label><label>Password<input name="password" type="password" required autocomplete="current-password"></label>@error('email')<p class="auth-error">{{ $message }}</p>@enderror<button class="primary-button" type="submit">Sign in <span>→</span></button></form><p class="auth-switch">New to Musio? <a href="{{ route('signup') }}">Create an account</a></p></div></section>
+@endsection
