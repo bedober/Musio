@@ -42,7 +42,7 @@ export default function HomePage() {
         <div className="sidebar-bottom"><span className="profile-avatar">M</span><div><strong>Musio preview</strong><small>Prototype environment</small></div></div>
       </aside>
       <div className="content">
-        <header className="topbar"><div className="crumb">Musio <span>/</span> {role}</div><div className="top-actions"><label className="search-input"><span>⌕</span><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search tracks and artists" /></label><span className="status"><i /> Uganda first</span><button className="avatar-button" onClick={() => action("Secure account login will be connected in Phase 2.")}>M</button></div></header>
+        <header className="topbar"><div className="crumb">Musio <span>/</span> {role}</div><div className="top-actions"><label className="search-input"><span>⌕</span><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search tracks and artists" /></label><span className="status"><i /> Uganda first</span><a className="avatar-button" href="/login" aria-label="Sign in to your Musio account">M</a></div></header>
         {workspace ? <>
           <section className="dashboard-welcome"><span className="eyebrow">{workspace.eyebrow}</span><h1>{workspace.title}</h1><p>{workspace.sub}</p><button className="primary-button" onClick={() => action("This action will be enabled after secure sign-in and database integration.")}>{workspace.action} <span>→</span></button></section>
           <section className="stats-grid">{workspace.stats.map(([label, value, detail]) => <article className="stat-card" key={label}><span>{label}</span><strong>{value}</strong><small>{detail}</small></article>)}</section>
