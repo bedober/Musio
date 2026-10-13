@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 
-const roles = ["Listener", "Artist", "Management", "Label", "Platform Admin"];
-
 export default function SignupPage() {
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     password: "",
-    role: "Listener",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -40,12 +37,7 @@ export default function SignupPage() {
       }
 
       setSuccess(result?.message || "Account created successfully.");
-      setForm({
-        fullName: "",
-        email: "",
-        password: "",
-        role: "Listener",
-      });
+      setForm({ fullName: "", email: "", password: "" });
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "Unable to create account.");
     } finally {
@@ -105,21 +97,7 @@ export default function SignupPage() {
             />
           </label>
 
-          <label style={styles.field}>
-            <span style={styles.label}>Account type</span>
-            <select
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              style={styles.input}
-            >
-              {roles.map((role) => (
-                <option key={role} value={role}>
-                  {role}
-                </option>
-              ))}
-            </select>
-          </label>
+          <p style={styles.helper}>New accounts start as listeners. Artist, management, label, and admin access must be reviewed and granted separately.</p>
 
           {error ? <p style={styles.error}>{error}</p> : null}
           {success ? <p style={styles.success}>{success}</p> : null}
@@ -213,6 +191,12 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 800,
     cursor: "pointer",
     fontSize: 16,
+  },
+  helper: {
+    margin: 0,
+    color: "#aebbd3",
+    fontSize: 14,
+    lineHeight: 1.5,
   },
   error: {
     margin: 0,
