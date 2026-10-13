@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { LogoutButton } from "./logout-button";
 
 const navItems = [
-  { href: "/", label: "Overview" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/upload", label: "Uploads" },
-  { href: "/artist", label: "Artist" },
-  { href: "/admin", label: "Admin" },
+  { href: "/", label: "Overview", roles: ["Listener", "Artist", "Management", "Label", "Platform Admin"] },
+  { href: "/dashboard", label: "Dashboard", roles: ["Listener", "Artist", "Management", "Label", "Platform Admin"] },
+  { href: "/upload", label: "Uploads", roles: ["Artist", "Management", "Label", "Platform Admin"] },
+  { href: "/artist", label: "Artist", roles: ["Artist", "Management", "Label", "Platform Admin"] },
+  { href: "/admin", label: "Admin", roles: ["Platform Admin"] },
 ];
 
 export default async function DashboardPage() {
@@ -28,7 +29,7 @@ export default async function DashboardPage() {
         </div>
 
         <nav style={styles.navWrap}>
-          {navItems.map((item) => (
+          {navItems.filter((item) => item.roles.includes(profile?.role || "Listener")).map((item) => (
             <Link key={item.href} href={item.href} style={styles.navLink}>
               {item.label}
             </Link>
@@ -40,6 +41,7 @@ export default async function DashboardPage() {
           <div>
             <strong>{profile?.full_name || user.email || "Welcome back"}</strong>
             <div style={styles.muted}>{profile?.role || "Listener"} workspace</div>
+            <LogoutButton />
           </div>
         </div>
       </aside>
