@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function AuthErrorPage() { return <main className="auth-page"><section className="auth-card"><span className="eyebrow">AUTHENTICATION</span><h1>That link is no longer valid.</h1><p className="auth-copy">Request a new verification email or sign in to continue.</p><div className="auth-actions"><Link className="primary-button" href="/login">Go to sign in <span>→</span></Link><Link href="/signup">Create an account</Link></div></section></main>; }
