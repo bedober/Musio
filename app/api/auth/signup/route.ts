@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSupabaseAdminClient, getSupabaseClient } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 
@@ -33,7 +33,6 @@ export async function POST(request: Request) {
     // Public signup sends Supabase's configured email-confirmation message.
     // Never let the request body choose a privileged role.
     const supabase = getSupabaseClient();
-    const supabaseAdmin = getSupabaseAdminClient();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -51,27 +50,6 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "We could not create the account. Check the details or try again later." },
         { status: 400 }
-      );
-    }
-
-    const { error: profileError } = await supabaseAdmin.from("profiles").upsert(
-      {
-        id: data.user.id,
-        full_name: fullName,
-        email,
-        role: "Listener",
-        account_status: "pending_verification",
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "id" }
-    );
-
-    if (profileError) {
-      console.error("Musio profile provisioning failed", profileError.code ?? "unknown");
-      await supabaseAdmin.auth.admin.deleteUser(data.user.id).catch(() => undefined);
-      return NextResponse.json(
-        { error: "Account setup is temporarily unavailable. Please try again later." },
-        { status: 503 }
       );
     }
 
