@@ -2,14 +2,6 @@ import { NextResponse } from "next/server";
 
 import { getSupabaseAdminClient } from "@/lib/supabase";
 
-const allowedRoles = [
-  "Listener",
-  "Artist",
-  "Management",
-  "Label",
-  "Platform Admin",
-] as const;
-
 export async function POST(request: Request) {
   try {
     const payload = await request.json().catch(() => null);
@@ -17,7 +9,6 @@ export async function POST(request: Request) {
     const fullName = typeof payload?.fullName === "string" ? payload.fullName.trim() : "";
     const email = typeof payload?.email === "string" ? payload.email.trim().toLowerCase() : "";
     const password = typeof payload?.password === "string" ? payload.password : "";
-    const role = typeof payload?.role === "string" ? payload.role.trim() : "Listener";
 
     if (!fullName || !email || !password) {
       return NextResponse.json(
@@ -37,10 +28,6 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!allowedRoles.includes(role as (typeof allowedRoles)[number])) {
-      return NextResponse.json({ error: "Unsupported role selected." }, { status: 400 });
-    }
-
     const supabaseAdmin = getSupabaseAdminClient();
 
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
@@ -49,7 +36,7 @@ export async function POST(request: Request) {
       email_confirm: false,
       user_metadata: {
         full_name: fullName,
-        role,
+        role: "Listener",
       },
     });
 
@@ -67,7 +54,7 @@ export async function POST(request: Request) {
           id: data.user.id,
           full_name: fullName,
           email,
-          role,
+          role: "Listener",
           account_status: "pending_verification",
           updated_at: new Date().toISOString(),
         },
@@ -92,7 +79,7 @@ export async function POST(request: Request) {
       user: {
         id: data.user.id,
         email: data.user.email,
-        role,
+        role: "Listener",
       },
     });
   } catch (error) {
